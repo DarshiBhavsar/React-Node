@@ -36,7 +36,9 @@ const app = express();
 
 app.use(
   cors({
-    origin: true,
+    origin: [
+      "https://idurarcrmerp.netlify.app/",
+    ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   })
