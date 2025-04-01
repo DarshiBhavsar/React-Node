@@ -16,7 +16,7 @@ const Userschema = new Schema({
         enum: ["owner", "admin", "member"],
         required: true,
     },
-    email: { type: String, lowercase: true, trim: true, required: true, unique: true },
+    email: { type: String, lowercase: true, trim: true, required: true },
     branchId: { type: mongoose.Schema.ObjectId, ref: "Branch", autopopulate: true },
     main_user_id: { type: mongoose.Schema.ObjectId, ref: "Admin" },
 
