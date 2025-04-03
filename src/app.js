@@ -15,7 +15,7 @@ const erpApiRouter = require('./routes/appRoutes/appApi');
 const app = express();
 
 const allowedOrigins = [
-  "http://localhost:3000",
+  "https://idurarcrmerp.netlify.app",
 ];
 
 app.use(
