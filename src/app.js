@@ -3,7 +3,7 @@ const cors = require('cors');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
 
-// Import your route handlers and controllers
+
 const coreAuthRouter = require('./routes/coreRoutes/coreAuth');
 const coreApiRouter = require('./routes/coreRoutes/coreApi');
 const coreDownloadRouter = require('./routes/coreRoutes/coreDownloadRouter');
@@ -15,10 +15,9 @@ const erpApiRouter = require('./routes/appRoutes/appApi');
 const app = express();
 
 const allowedOrigins = [
-  "https://idurarcrmerp.netlify.app",
+  "http://localhost:3000",
 ];
 
-// CORS Middleware
 app.use(
   cors({
     origin: (origin, callback) => {

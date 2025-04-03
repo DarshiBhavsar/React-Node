@@ -13,9 +13,9 @@ const registerUser = async (req, res, { userModel }) => {
         console.log("🔍 Checking if user already exists...");
         const existingUser = await UserModel.findOne({ email });
 
-        if (existingUser) {
-            return res.status(400).json({ success: false, message: "User with this email already exists!" });
-        }
+        // if (existingUser) {
+        //     return res.status(400).json({ success: false, message: "User with this email already exists!" });
+        // }
 
         console.log("🔍 Fetching latest User-Data entry for:", email);
         const userData = await userDataModel

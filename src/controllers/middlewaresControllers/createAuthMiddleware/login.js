@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const authUser = require('./authUser');
 
 const login = async (req, res, { userModel }) => {
-  console.log("🔍 Querying Model:", userModel); // Should be "Admin" or "User-Data"
+  console.log("🔍 Querying Model:", userModel);
 
   const UserModel = mongoose.model(userModel);
   const BranchModel = mongoose.model('Branch');
@@ -53,11 +53,22 @@ const login = async (req, res, { userModel }) => {
 
   console.log("✅ User Found:", user);
 
+
   // ✅ Identify whether the user is from `Admin` or `User-Data`
   const passwordQuery = { $or: [{ user: user._id }, { userData: user._id }] };
   console.log("🔍 [DATABASE] Searching for Password for User ID:", user._id);
 
   const databasePassword = await AdminPasswordModel.findOne({ ...passwordQuery, removed: false });
+
+  if (!databasePassword) {
+    console.log("❌ [PASSWORD NOT FOUND]");
+    return res.status(403).json({
+      success: false,
+      result: null,
+      message: 'Invalid credentials.',
+    });
+  }
+
 
   if (!databasePassword) {
     console.log("❌ [PASSWORD NOT FOUND]");
@@ -77,20 +88,15 @@ const login = async (req, res, { userModel }) => {
   }
 
   let selectedBranch = user.defaultBranch;
-  let selectedBranchName = '';
 
   if (!selectedBranch) {
     const userBranches = await BranchModel.find({ ownerId: user._id });
 
     if (userBranches.length > 0) {
       selectedBranch = userBranches[0]._id;
-      selectedBranchName = userBranches[0].name;
       user.defaultBranch = selectedBranch;
       await user.save();
     }
-  } else {
-    const branch = await BranchModel.findById(selectedBranch);
-    selectedBranchName = branch ? branch.name : '';
   }
 
   authUser(req, res, {
@@ -98,7 +104,6 @@ const login = async (req, res, { userModel }) => {
     databasePassword,
     password,
     selectedBranch,
-    selectedBranchName,
   });
 };
 

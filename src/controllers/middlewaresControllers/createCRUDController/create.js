@@ -50,12 +50,41 @@ const create = async (Model, req, res) => {
       subId: req.body.subId,
     });
 
+    // if ((Model.modelName === "User-Data" || Model.modelName === "Client") && req.body.email) {
+    //   const existingUser = await Model.findOne({
+    //     email: req.body.email,
+    //     main_user_id: req.body.main_user_id,
+    //     // branchId: req.body.branchId
+    //   });
+
+    //   if (existingUser) {
+    //     return res.status(400).json({
+    //       success: false,
+    //       message: "Email already exists Please use a different email."
+    //     });
+    //   }
+    // }
+
+    if ((Model.modelName === "User-Data" || Model.modelName === "Client") && req.body.email) {
+      const existingUser = await Model.findOne({
+        email: req.body.email,
+      });
+
+      if (existingUser) {
+        return res.status(400).json({
+          success: false,
+          message: "Email already exists. Please use a different email."
+        });
+      }
+    }
+
     const result = await new Model({ ...req.body }).save();
     console.log(`✅ Successfully created document in ${Model.modelName}`);
 
 
     if (Model.modelName === "User-Data" && result.email) {
-      const inviteLink = `https://idurarcrmerp.netlify.app/register-user`;
+
+      const inviteLink = `http://localhost:3000/register-user`;
 
       const transporter = nodemailer.createTransport({
         service: "gmail",
