@@ -15,7 +15,7 @@ const erpApiRouter = require('./routes/appRoutes/appApi');
 const app = express();
 
 const allowedOrigins = [
-  "https://idurarcrmerp.netlify.app/",
+  "https://idurarcrmerp.netlify.app",
 ];
 
 
