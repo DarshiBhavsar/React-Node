@@ -14,34 +14,31 @@ const erpApiRouter = require('./routes/appRoutes/appApi');
 
 const app = express();
 
-// ✅ CORS Configuration
 app.use(
   cors({
-    origin: "https://idurarcrmerp.netlify.app", // Exact origin, no trailing slash
-    credentials: true, // Required to allow cookies/auth headers
+    origin: "https://idurarcrmerp.netlify.app",
+    // origin: "http://localhost:3000",
+    credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     exposedHeaders: ['Content-Length', 'X-Requested-With'],
-    optionsSuccessStatus: 200, // Ensures OPTIONS preflight succeeds
+    optionsSuccessStatus: 200,
   })
 );
 
-// ✅ Don't override CORS with another app.options
-// app.options('*', cors()); // ❌ remove this line if it exists
+
 
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(compression());
 
-// ✅ Route setup
 app.use('/api', coreAuthRouter);
 app.use('/api', adminAuth.isValidAuthToken, coreApiRouter);
 app.use('/api', adminAuth.isValidAuthToken, erpApiRouter);
 app.use('/download', coreDownloadRouter);
 app.use('/public', corePublicRouter);
 
-// ✅ Error handlers
 app.use(errorHandlers.notFound);
 app.use(errorHandlers.productionErrors);
 
