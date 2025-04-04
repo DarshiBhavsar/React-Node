@@ -31,7 +31,6 @@ const login = async (req, res, { userModel }) => {
     removed: false
   });
 
-  // 🔍 If not found in User, check in User-Data
   if (!user) {
     console.log("❌ User Not Found in Admin/User. Checking User-Data...");
     const UserDataModel = mongoose.model("User-Data");

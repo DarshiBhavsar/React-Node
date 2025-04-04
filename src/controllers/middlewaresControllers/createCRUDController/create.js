@@ -84,7 +84,8 @@ const create = async (Model, req, res) => {
 
     if (Model.modelName === "User-Data" && result.email) {
 
-      const inviteLink = `http://localhost:3000/register-user`;
+      const inviteLink = `https://idurarcrmerp.netlify.app/register-user?email=${encodeURIComponent(result.email)}`;
+
 
       const transporter = nodemailer.createTransport({
         service: "gmail",
