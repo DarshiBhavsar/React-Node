@@ -12,9 +12,6 @@ const adminAuth = require('./controllers/coreControllers/adminAuth');
 const errorHandlers = require('./handlers/errorHandlers');
 const erpApiRouter = require('./routes/appRoutes/appApi');
 
-
-const fileUpload = require('express-fileupload');
-
 const app = express();
 
 const allowedOrigins = [
